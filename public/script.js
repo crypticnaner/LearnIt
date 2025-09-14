@@ -271,21 +271,54 @@ async function handleAddComment(e) {
 }
 
 async function handleTakeTicket(ticketId) {
-    if (state.userData.role !== 'worker') return;
+    // Only allow workers to take tickets
+    if (state.userData.role !== 'worker') {
+        alert('Permission denied. You must be a worker to take tickets.');
+        return;
+    }
+    
+    // Get a reference to the specific ticket document
     const ticketRef = db.collection('tickets').doc(ticketId);
-    await ticketRef.update({
-        status: 'In Progress',
-        assignedToWorker: state.user.uid,
-        assignedToWorkerEmail: state.userData.email
-    });
+
+    try {
+        // Update the ticket document in Firestore
+        await ticketRef.update({
+            status: 'In Progress',
+            assignedToWorker: state.user.uid,
+            assignedToWorkerEmail: state.userData.email
+        });
+        
+        // Hide the modal after the update
+        dom.detailModal.classList.add('hidden');
+        
+    } catch (error) {
+        console.error("Error taking ticket:", error);
+        alert('Failed to take ticket. Please try again.');
+    }
 }
 
 async function handleCloseTicket(ticketId) {
+    // Only allow workers to close tickets
+    if (state.userData.role !== 'worker') {
+        alert('Permission denied. You must be a worker to close tickets.');
+        return;
+    }
+
     const ticketRef = db.collection('tickets').doc(ticketId);
-    await ticketRef.update({
-        status: 'Closed'
-    });
-    dom.detailModal.classList.add('hidden');
+
+    try {
+        // Update the ticket document in Firestore
+        await ticketRef.update({
+            status: 'Closed'
+        });
+        
+        // Hide the modal after the update
+        dom.detailModal.classList.add('hidden');
+
+    } catch (error) {
+        console.error("Error closing ticket:", error);
+        alert('Failed to close ticket. Please try again.');
+    }
 }
 
 // --- Main App Logic ---
@@ -334,4 +367,5 @@ auth.onAuthStateChanged(async (authUser) => {
 });
 
 // Initialize event listeners once the DOM is ready
+
 document.addEventListener('DOMContentLoaded', setupEventListeners);
