@@ -1,13 +1,14 @@
 // --- Firebase Configuration (REPLACE WITH YOURS) ---
 const firebaseConfig = {
-    apiKey: "AIzaSyCBz7D-nh2obYjPnjwynjoX6gEkR2z_nM8",
-    authDomain: "ticket-system-test1.firebaseapp.com",
-    projectId: "ticket-system-test1",
-    storageBucket: "ticket-system-test1.firebasestorage.app",
-    messagingSenderId: "79590086119",
-    appId: "1:79590086119:web:d6f3efbed1e9f5ed8a1942",
-    measurementId: "G-M1Z0MKSBM4"
-  };
+  apiKey: "AIzaSyCBz7D-nh2obYjPnjwynjoX6gEkR2z_nM8",
+  authDomain: "ticket-system-test1.firebaseapp.com",
+  databaseURL: "https://ticket-system-test1-default-rtdb.firebaseio.com",
+  projectId: "ticket-system-test1",
+  storageBucket: "ticket-system-test1.firebasestorage.app",
+  messagingSenderId: "79590086119",
+  appId: "1:79590086119:web:b7cccdf7ee3e4aab8a1942",
+  measurementId: "G-RNPFLSEVC7"
+};
 
 // --- Firebase Initialization ---
 const app = firebase.initializeApp(firebaseConfig);
@@ -369,3 +370,4 @@ auth.onAuthStateChanged(async (authUser) => {
 // Initialize event listeners once the DOM is ready
 
 document.addEventListener('DOMContentLoaded', setupEventListeners);
+
